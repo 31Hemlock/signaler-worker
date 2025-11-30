@@ -2,16 +2,14 @@ name = "signaler-worker"
 main = "index.js"
 compatibility_date = "2025-11-30"
 
-# This flag tells CF you’re using the new SQLite-based Durable Objects.
-compatibility_flags = ["durable_object_sqlite"]
-
+# Durable Object binding: env.ROOM -> class RoomDO
 [durable_objects]
 bindings = [
-  # JS class name: RoomDO, exposed to env as env.ROOM
   { name = "ROOM", class_name = "RoomDO" }
 ]
 
-# First migration: create the SQLite DO class RoomDO
+# Required for Durable Objects on the current free plan:
+# create a SQLite-backed namespace for RoomDO.
 [[migrations]]
 tag = "v1"
 new_sqlite_classes = ["RoomDO"]
